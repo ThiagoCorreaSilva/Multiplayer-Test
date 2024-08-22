@@ -30,6 +30,8 @@ public class PlayerMovement : MonoBehaviour
         {
             PlayerInputs();
             Animations();
+
+            if (dir.x > 0 && !facingLeft || dir.x < 0 && facingLeft) Flip();
         }
     }
 
@@ -50,8 +52,6 @@ public class PlayerMovement : MonoBehaviour
             isRunning = true;
         else
             isRunning = false;
-
-        if (dir.x > 0 && !facingLeft || dir.x < 0 && facingLeft) Flip();
 
         if (Input.GetButtonDown("Jump")) PlayerJump();
     }
