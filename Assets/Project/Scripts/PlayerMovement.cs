@@ -8,7 +8,11 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private PhotonView view;
     [SerializeField] private float speed;
+    [SerializeField] private float jumpForce;
     [SerializeField] private Vector2 dir;
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private Transform groundPos;
+    [SerializeField] private float checkRadius;
 
     private void Start()
     {
@@ -25,17 +29,36 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         if (view.IsMine)
+        {
             PlayerMove();
+        }
     }
 
     private void PlayerInputs()
     {
         float _x = Input.GetAxisRaw("Horizontal");
         dir = new Vector2(_x, 0);
+
+        if (Input.GetButtonDown("Jump")) PlayerJump();
     }
 
     private void PlayerMove()
     {
-        rb.velocity = dir * speed;
+        rb.velocity = new Vector2(dir.x * speed, rb.velocity.y);
+    }
+
+    private void PlayerJump()
+    {
+        if (!OnGround()) return;
+
+        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+    }
+
+    private bool OnGround()
+    {
+        return Physics2D.OverlapCircle(
+            groundPos.position, 
+            checkRadius, 
+            groundLayer);
     }
 }
