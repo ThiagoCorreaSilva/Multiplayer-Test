@@ -6,6 +6,7 @@ using Photon.Pun;
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D rb;
+    private Animator anim;
     private PhotonView view;
     [SerializeField] private float speed;
     [SerializeField] private float jumpForce;
@@ -13,17 +14,23 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Transform groundPos;
     [SerializeField] private float checkRadius;
+    private bool isRunning;
+    private bool facingLeft;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         view = GetComponent<PhotonView>();
+        anim = GetComponent<Animator>();
     }
 
     private void Update()
     {
         if (view.IsMine)
+        {
             PlayerInputs();
+            Animations();
+        }
     }
 
     private void FixedUpdate()
@@ -38,6 +45,13 @@ public class PlayerMovement : MonoBehaviour
     {
         float _x = Input.GetAxisRaw("Horizontal");
         dir = new Vector2(_x, 0);
+
+        if (dir.x != 0)
+            isRunning = true;
+        else
+            isRunning = false;
+
+        if (dir.x > 0 && !facingLeft || dir.x < 0 && facingLeft) Flip();
 
         if (Input.GetButtonDown("Jump")) PlayerJump();
     }
@@ -60,5 +74,16 @@ public class PlayerMovement : MonoBehaviour
             groundPos.position, 
             checkRadius, 
             groundLayer);
+    }
+
+    private void Flip()
+    {
+        facingLeft = !facingLeft;
+        transform.Rotate(Vector3.up * 180f);
+    }
+
+    private void Animations()
+    {
+        anim.SetBool("IsRunning", isRunning);
     }
 }
