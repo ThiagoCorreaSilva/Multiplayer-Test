@@ -9,9 +9,7 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
     private void Start()
     {
         PhotonNetwork.PhotonServerSettings.AppSettings.FixedRegion = "sa";
-
         PhotonNetwork.ConnectUsingSettings();
-        print("Iniciado");
     }
 
     public override void OnConnectedToMaster()
@@ -19,5 +17,13 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
         base.OnConnectedToMaster();
 
         PhotonNetwork.JoinLobby();
+        Debug.Log("Conectado ao Master Server");
+    }
+
+    public override void OnJoinedLobby()
+    {
+        base.OnJoinedLobby();
+
+        SceneManager.LoadScene("Lobby");
     }
 }

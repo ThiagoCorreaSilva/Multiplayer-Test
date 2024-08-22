@@ -17,6 +17,7 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
     [Header("Lobby Variables")]
     [SerializeField] private TMP_Text availableRooms;
     [SerializeField] private int roomsCount;
+    [SerializeField] private int gameVersion;
     [SerializeField] private bool haveRoom;
 
     private void Awake()
@@ -35,7 +36,7 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
         base.OnRoomListUpdate(_roomList);
 
         roomsCount = _roomList.Count;
-        availableRooms.text = "Rooms: " + roomsCount.ToString();
+        availableRooms.text = "Available Rooms: " + roomsCount.ToString();
 
         if (_roomList.Count > 0)
             haveRoom = true;
@@ -44,7 +45,14 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
 
     public void CreateRoom()
     {
-        PhotonNetwork.CreateRoom(createInput.text);
+        if (string.IsNullOrEmpty(createInput.text))
+        {
+            Debug.Log("Sala criada devido a falta de um ID");
+            PhotonNetwork.CreateRoom(Random.Range(0, 1000).ToString(), new RoomOptions());
+        }
+
+        else
+            PhotonNetwork.CreateRoom(createInput.text);
     }
 
     public void JoinRoom()
@@ -52,7 +60,7 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
         if (!haveRoom)
         {
             Debug.Log("Sala criada devido a falta de salas");
-            PhotonNetwork.CreateRoom(null, new RoomOptions());
+            PhotonNetwork.CreateRoom(Random.Range(0, 1000).ToString(), new RoomOptions());
         }
 
         else if (string.IsNullOrWhiteSpace(joinInput.text))
@@ -70,5 +78,6 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
         base.OnJoinedRoom();
 
         PhotonNetwork.LoadLevel("Game");
+        Debug.Log(PhotonNetwork.CurrentRoom.Name);
     }
 }
