@@ -8,20 +8,27 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Animator anim;
     private PhotonView view;
+    [SerializeField] private Transform spawnPoint;
+
+    [Header("Movement Variables")]
     [SerializeField] private float speed;
     [SerializeField] private float jumpForce;
     [SerializeField] private Vector2 dir;
+    private bool isRunning;
+    private bool facingLeft;
+
+    [Header("Ground Check Variables")]
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Transform groundPos;
     [SerializeField] private float checkRadius;
-    private bool isRunning;
-    private bool facingLeft;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         view = GetComponent<PhotonView>();
         anim = GetComponent<Animator>();
+
+        spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").GetComponent<Transform>();
     }
 
     private void Update()
@@ -85,5 +92,11 @@ public class PlayerMovement : MonoBehaviour
     private void Animations()
     {
         anim.SetBool("IsRunning", isRunning);
+    }
+
+    private void OnTriggerEnter2D(Collider2D _other)
+    {
+        if (_other.tag == "DeathZone" && view.IsMine)
+            transform.position = spawnPoint.position;
     }
 }

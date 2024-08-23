@@ -8,7 +8,7 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
 {
     private void Start()
     {
-        PhotonNetwork.PhotonServerSettings.AppSettings.FixedRegion = "sa";
+        PhotonNetwork.ConnectToRegion(PhotonNetwork.CloudRegion);
         PhotonNetwork.ConnectUsingSettings();
     }
 
