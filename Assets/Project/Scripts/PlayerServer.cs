@@ -27,8 +27,6 @@ public class PlayerServer : MonoBehaviour
     [PunRPC]
     public void ActiveCanvas(string _name)
     {
-        canvas.gameObject.SetActive(true);
-
         canvas.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = _name;
         canvas.gameObject.GetComponentInChildren<TextMeshProUGUI>().color = colors[0];
     }
