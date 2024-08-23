@@ -1078,7 +1078,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 7869253841835988892, guid: b4e7cac2f5b4909469eb64a59cc07f10, type: 3}
+  canvas: {fileID: 199831151591423650, guid: d9e1077a1b68e9d48a5a3ecfa0d00a9c, type: 3}
   spawnPoint: {fileID: 27156022}
+  colors:
+  - {r: 0, g: 0, b: 0, a: 1}
+  - {r: 0.764151, g: 0.32079923, b: 0.32079923, a: 1}
+  - {r: 0.40165004, g: 0.7075472, b: 0.24363652, a: 1}
+  - {r: 0.7075472, g: 0.503148, b: 0.056737285, a: 1}
+  - {r: 0.19953722, g: 0.7169812, b: 0.6258604, a: 1}
+  - {r: 0.48340157, g: 0.50514567, b: 0.6698113, a: 1}
+  names:
+  - MushcV2
+  - ByteCell
+  - Ecodoty
+  - XdFrajola
+  - MuelManeiro
+  - Theah
 --- !u!1 &1520682216
 GameObject:
   m_ObjectHideFlags: 0
