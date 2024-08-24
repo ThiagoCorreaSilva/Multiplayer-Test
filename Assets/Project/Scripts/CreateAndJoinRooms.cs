@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
 using Photon.Realtime;
+using ExitGames.Client.Photon;
 
 public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
 {
@@ -88,6 +89,14 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
 
     private void ConfirmNickname()
     {
-        nickname = nicknameInput.text;
+        if (!string.IsNullOrEmpty(nicknameInput.text))
+        {
+            PhotonNetwork.NickName = nicknameInput.text;
+            nickname = "NotRandom";
+
+            nicknameInput.gameObject.SetActive(false);
+        }
+        else
+            nickname = "Random";
     }
 }

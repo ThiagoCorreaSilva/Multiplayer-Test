@@ -41,6 +41,8 @@ public class PlayerMovement : MonoBehaviour
 
             if (dir.x > 0 && !facingLeft || dir.x < 0 && facingLeft) Flip();
         }
+
+        Debug.Log(OnGround());
     }
 
     private void FixedUpdate()

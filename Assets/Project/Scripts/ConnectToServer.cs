@@ -6,9 +6,8 @@ using Photon.Pun;
 
 public class ConnectToServer : MonoBehaviourPunCallbacks
 {
-    private void Start()
+    private void Awake()
     {
-        PhotonNetwork.PhotonServerSettings.AppSettings.FixedRegion = "sa";
         PhotonNetwork.ConnectUsingSettings();
     }
 
