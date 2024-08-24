@@ -11,8 +11,14 @@ public class PlayerServer : MonoBehaviour
     [SerializeField] private Color[] colors;
     [SerializeField] private string[] names;
 
+    private CreateAndJoinRooms roomsController;
     private Transform canvas;
     private PhotonView view;
+
+    private void Awake()
+    {
+        roomsController = GameObject.FindGameObjectWithTag("RoomsController").GetComponent<CreateAndJoinRooms>();
+    }
 
     private void Start()
     {
@@ -21,11 +27,21 @@ public class PlayerServer : MonoBehaviour
 
         int _rng = Random.Range(0, names.Length);
 
-        view.RPC(nameof(ActiveCanvas), RpcTarget.All, names[_rng]);
+        if (roomsController.nickname == "Random")
+            view.RPC(nameof(RandomName), RpcTarget.All, names[_rng]);
+        else
+            view.RPC(nameof(PlayerName), RpcTarget.All, roomsController.nickname);
     }
 
     [PunRPC]
-    public void ActiveCanvas(string _name)
+    public void PlayerName(string _name)
+    {
+        canvas.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = _name;
+        canvas.gameObject.GetComponentInChildren<TextMeshProUGUI>().color = colors[0];
+    }
+
+    [PunRPC]
+    public void RandomName(string _name)
     {
         canvas.gameObject.GetComponentInChildren<TextMeshProUGUI>().text = _name;
         canvas.gameObject.GetComponentInChildren<TextMeshProUGUI>().color = colors[0];

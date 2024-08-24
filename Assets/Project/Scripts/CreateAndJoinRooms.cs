@@ -18,18 +18,26 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
     [SerializeField] private TMP_Text availableRooms;
     [SerializeField] private int roomsCount;
     [SerializeField] private int gameVersion;
+    [SerializeField] private TMP_InputField nicknameInput;
+    [SerializeField] private Button confirmNickname;
+    public string nickname;
 
     private void Awake()
     {
         DontDestroyOnLoad(this);
+        nickname = "Random";
     }
 
     private void Start()
     {
         createButton.onClick.AddListener(CreateRoom);
         joinButton.onClick.AddListener(JoinRoom);
+        confirmNickname.onClick.AddListener(ConfirmNickname);
+
+        availableRooms.text = "Available Rooms: " + roomsCount.ToString();
     }
 
+    #region RoomsController
     public override void OnRoomListUpdate(List<RoomInfo> _roomList)
     {
         base.OnRoomListUpdate(_roomList);
@@ -74,5 +82,12 @@ public class CreateAndJoinRooms : MonoBehaviourPunCallbacks
 
         PhotonNetwork.LoadLevel("Game");
         Debug.Log(PhotonNetwork.CurrentRoom.Name);
+    }
+
+    #endregion
+
+    private void ConfirmNickname()
+    {
+        nickname = nicknameInput.text;
     }
 }
